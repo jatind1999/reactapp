@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -9,39 +9,39 @@ import RestaurantMenu from "./components/RestaurantMenu";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
 const AppContainer = () => {
-  return (
-    <div className="app-container">
-      <Header />
-      <Outlet />
-    </div>
-  );
+    return (
+        <div className="app-container">
+            <Header />
+            <Outlet />
+        </div>
+    );
 };
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <AppContainer />,
-    children: [
-      {
-        path: "",
-        element: <Body />,
-      },
+    {
+        path: "/",
+        element: <AppContainer />,
+        children: [
+            {
+                path: "",
+                element: <Body />,
+            },
 
-      {
-        path: "about",
-        element: <About />,
-      },
-      {
-        path: "contact",
-        element: <Contact />,
-      },
-      {
-        path: ":restaurantId",
-        element: <RestaurantMenu />,
-      },
-    ],
-    errorElement: <Error />,
-  },
+            {
+                path: "about",
+                element: <About />,
+            },
+            {
+                path: "contact",
+                element: <Contact />,
+            },
+            {
+                path: "restaurants/:restaurantId",
+                element: <RestaurantMenu />,
+            },
+        ],
+        errorElement: <Error />,
+    },
 ]);
 
 // declaring root.
