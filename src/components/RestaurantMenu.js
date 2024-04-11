@@ -1,25 +1,9 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { RESTAURANT_MENU_URL } from "../utils/constants";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
 
 const RestaurantMenu = () => {
     const { restaurantId } = useParams();
-    const [restaurantName, setRestaurantName] = useState("");
-    const [menuCategories, setMenuCategories] = useState([]);
-
-    const fetchRestaurantMenu = async (restaurantId) => {
-        const data = await fetch(`${RESTAURANT_MENU_URL}${restaurantId}`);
-        const json = await data.json();
-        setRestaurantName(json.data.cards[0].card.card.text);
-        setMenuCategories(
-            json.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards
-        );
-    };
-
-    useEffect(() => {
-        fetchRestaurantMenu(restaurantId);
-    }, []);
-    console.log("Rendered");
+    const { restaurantName, menuCategories } = useRestaurantMenu(restaurantId);
     return menuCategories.length > 0 ? (
         <>
             <h1 style={{ textAlign: "center" }}>{restaurantName}</h1>
