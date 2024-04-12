@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 const Header = () => {
     const [loginState, setLoginState] = useState("Login");
     const toggleLoginState = () => {
@@ -8,6 +9,7 @@ const Header = () => {
             ? setLoginState("Logout")
             : setLoginState("Login");
     };
+    const isUserOnline = useOnlineStatus();
     return (
         <div className="header">
             <div className="logo-box">
@@ -15,6 +17,7 @@ const Header = () => {
             </div>
             <div className="nav-items">
                 <ul className="nav-item-list">
+                    <li>Online Status: {isUserOnline ? "✅" : "🚫"}</li>
                     <Link to={"/"}>Home</Link>
                     <Link to={"about"}>About us</Link>
                     <Link to={"contact"}>Contact Us</Link>

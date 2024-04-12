@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
-
 const RestaurantMenu = () => {
     const { restaurantId } = useParams();
     const { restaurantName, menuCategories } = useRestaurantMenu(restaurantId);
+
     return menuCategories.length > 0 ? (
         <>
             <h1 style={{ textAlign: "center" }}>{restaurantName}</h1>

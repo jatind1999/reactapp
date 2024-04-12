@@ -2,11 +2,14 @@ import Card from "./Card";
 import { useEffect, useState } from "react";
 import ShimmerUiCard from "./ShimmerUiCard";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = (props) => {
     const [restaurants, setRestaurants] = useState([]);
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const isUserOnline = useOnlineStatus();
+    console.log(isUserOnline);
 
     const filterRestaurants = () => {
         setFilteredRestaurants(
@@ -33,6 +36,15 @@ const Body = (props) => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    if (!isUserOnline)
+        return (
+            <h1>
+                Looks like you are offline! Please check your internet
+                connection.
+            </h1>
+        );
+
     return (
         <>
             <div className="filter-container">
@@ -59,7 +71,7 @@ const Body = (props) => {
                             id,
                         } = restraunt.info;
                         return (
-                            <Link to={`/restaurants/${id}`}>
+                            <Link to={`/restaurants/${id}`} key={id}>
                                 <Card
                                     key={id}
                                     name={name}

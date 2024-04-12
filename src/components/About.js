@@ -2,20 +2,6 @@ import User from "./User";
 import UserClass from "./UserClass";
 import React from "react";
 
-// const About = () => {
-//     return (
-//         <div className="about-container">
-//             <h1>About</h1>
-
-//             <UserClass
-//                 name="Jatin Damariya"
-//                 contact="6478290793"
-//                 location="Scarborough"
-//             />
-//         </div>
-//     );
-// };
-
 class About extends React.Component {
     constructor(props) {
         super(props);
