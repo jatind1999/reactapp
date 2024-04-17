@@ -11,17 +11,37 @@ const Header = () => {
     };
     const isUserOnline = useOnlineStatus();
     return (
-        <div className="header">
-            <div className="logo-box">
-                <img src={LOGO_URL} />
+        <div className="header flex justify-between p-2 items-center bg-slate-900 shadow-xl text-gray-400">
+            <div className="logo-box w-20">
+                <img src={LOGO_URL} className="rounded-[50%]" />
             </div>
             <div className="nav-items">
-                <ul className="nav-item-list">
+                <ul className="nav-item-list flex gap-4 ">
                     <li>Online Status: {isUserOnline ? "✅" : "🚫"}</li>
-                    <Link to={"/"}>Home</Link>
-                    <Link to={"about"}>About us</Link>
-                    <Link to={"contact"}>Contact Us</Link>
-                    <Link to={"/"}>Cart</Link>
+                    <Link
+                        to={"/"}
+                        className="hover:cursor-pointer hover:text-gray-100"
+                    >
+                        Home
+                    </Link>
+                    <Link
+                        to={"about"}
+                        className="hover:cursor-pointer hover:text-gray-100"
+                    >
+                        About us
+                    </Link>
+                    <Link
+                        to={"contact"}
+                        className="hover:cursor-pointer hover:text-gray-100"
+                    >
+                        Contact Us
+                    </Link>
+                    <Link
+                        to={"/"}
+                        className="hover:cursor-pointer hover:text-gray-100"
+                    >
+                        Cart
+                    </Link>
                     <li>
                         <button className="btn" onClick={toggleLoginState}>
                             {loginState}

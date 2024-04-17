@@ -47,20 +47,24 @@ const Body = (props) => {
 
     return (
         <>
-            <div className="filter-container">
+            <div className="filter-container flex py-4">
                 <div className="search-bar">
                     <input
                         type="text"
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
+                        className="m-2 p-2 border-2 rounded-md border-gray-400"
                     ></input>
                 </div>
-                <button className="btn" onClick={filterRestaurants}>
+                <button
+                    className="btn my-2 px-4 rounded-md shadow-[0_0_2px_1px_rgba(0,0,0,0.1)] hover:bg-slate-900 hover:text-gray-100"
+                    onClick={filterRestaurants}
+                >
                     Search
                 </button>
             </div>
             {filteredRestaurants.length > 0 ? (
-                <div className="main-body">
+                <div className="main-body flex flex-wrap">
                     {filteredRestaurants.map((restraunt) => {
                         const {
                             name,
