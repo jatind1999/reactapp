@@ -1,15 +1,18 @@
-import Card from "./Card";
+import Card, { generatePromotedCard, openRestaurantCard } from "./Card";
 import { useEffect, useState } from "react";
 import ShimmerUiCard from "./ShimmerUiCard";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import { openRestaurantCard } from "./Card";
 
-const Body = (props) => {
+const Body = () => {
     const [restaurants, setRestaurants] = useState([]);
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
     const [searchText, setSearchText] = useState("");
     const isUserOnline = useOnlineStatus();
-    console.log(isUserOnline);
+
+    // generate promoted restaurant card component.
+    const OpenRestaurantCard = openRestaurantCard(Card);
 
     const filterRestaurants = () => {
         setFilteredRestaurants(
@@ -25,11 +28,17 @@ const Body = (props) => {
             "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=26.8504593&lng=75.76277019999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
         );
         const json = await data.json();
+        const restaurants = json.data.cards.filter((card) => {
+            return card.card.card.id === "restaurant_grid_listing";
+        });
+
+        console.log(restaurants[0]);
+
         setRestaurants(
-            json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
+            restaurants[0].card.card.gridElements.infoWithStyle.restaurants
         );
         setFilteredRestaurants(
-            json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
+            restaurants[0].card.card.gridElements.infoWithStyle.restaurants
         );
     };
 
@@ -63,9 +72,9 @@ const Body = (props) => {
                     Search
                 </button>
             </div>
-            {filteredRestaurants.length > 0 ? (
+            {filteredRestaurants?.length > 0 ? (
                 <div className="main-body flex flex-wrap">
-                    {filteredRestaurants.map((restraunt) => {
+                    {filteredRestaurants.map((restaurant) => {
                         const {
                             name,
                             avgRating,
@@ -73,17 +82,28 @@ const Body = (props) => {
                             sla,
                             cloudinaryImageId,
                             id,
-                        } = restraunt.info;
+                        } = restaurant.info;
                         return (
                             <Link to={`/restaurants/${id}`} key={id}>
-                                <Card
-                                    key={id}
-                                    name={name}
-                                    rating={avgRating}
-                                    cuisines={cuisines}
-                                    deliverySla={sla.slaString}
-                                    imageId={cloudinaryImageId}
-                                />
+                                {restaurant.info.isOpen ? (
+                                    <OpenRestaurantCard
+                                        key={id}
+                                        name={name}
+                                        rating={avgRating}
+                                        cuisines={cuisines}
+                                        deliverySla={sla.slaString}
+                                        imageId={cloudinaryImageId}
+                                    />
+                                ) : (
+                                    <Card
+                                        key={id}
+                                        name={name}
+                                        rating={avgRating}
+                                        cuisines={cuisines}
+                                        deliverySla={sla.slaString}
+                                        imageId={cloudinaryImageId}
+                                    />
+                                )}
                             </Link>
                         );
                     })}

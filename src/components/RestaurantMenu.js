@@ -1,40 +1,26 @@
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantMenuCategory from "./RestaurantMenuCategory";
 const RestaurantMenu = () => {
     const { restaurantId } = useParams();
     const { restaurantName, menuCategories } = useRestaurantMenu(restaurantId);
 
     return menuCategories.length > 0 ? (
         <>
-            <h1 style={{ textAlign: "center" }}>{restaurantName}</h1>
-            <div className="menu-container">
+            <h1 className="text-center text-2xl mt-2 mb-4 font-bold">
+                {restaurantName}
+            </h1>
+            <div className="menu-container w-[70%] m-auto border-2 p-4 rounded-md shadow-2xl border-none">
                 {menuCategories.map((category, index) => {
                     if (
                         category.card.card.title !== undefined &&
                         category.card.card.itemCards !== undefined
                     ) {
-                        const categoryItems = category.card.card.itemCards;
                         return (
-                            <div className="category-box" key={index}>
-                                <h3 className="category-title">
-                                    {category.card.card.title}
-                                </h3>
-                                <div className="category-items">
-                                    <ul>
-                                        {categoryItems.map((item) => {
-                                            return (
-                                                <li
-                                                    className="item"
-                                                    key={item.card.info.id}
-                                                >
-                                                    {item.card.info.name} - Rs.{" "}
-                                                    {item.card.info.price / 100}
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
-                                </div>
-                            </div>
+                            <RestaurantMenuCategory
+                                category={category}
+                                key={index}
+                            />
                         );
                     }
                 })}
